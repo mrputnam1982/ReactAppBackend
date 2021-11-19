@@ -4,9 +4,7 @@ export const CustomRoute = ({ comp: Component, ...rest }) =>
   (
     <Route {...rest} render={(props) => {
        console.log(props.path);
-      return props.path === '/'
-        ? ({auth.logout()}
-        <Redirect to='/'/>)
-        : <Component {...props}/>
+       if(props.path === '/') auth.logout();
+       return <Component {...props}/>
     }} />
   );
