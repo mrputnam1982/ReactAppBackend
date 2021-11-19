@@ -22,11 +22,8 @@ const Home = () => {
                 maxHeight: "40vw",
                 height: "40vw"}}>
 
-
-
-
                     <Row className="text-center justify-content-center d-flex">
-                        <h1 className={"display-5"}>Custom React Landing Page</h1>
+                        <h1 className={"display-5"}>React Landing Page</h1>
 
                     </Row>
 
