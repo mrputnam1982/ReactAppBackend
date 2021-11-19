@@ -13,7 +13,7 @@ import PostView from "./Components/PostView";
 import AppNavbar from "./Components/AppNavbar";
 import history from "./Components/history";
 import {PrivateRoute} from './Routes/PrivateRoute';
-
+import {CustomRoute} from './Routes/CustomRoute';
 export default class InnerApp extends React.PureComponent{
 
     render() {
@@ -25,7 +25,7 @@ export default class InnerApp extends React.PureComponent{
                   <div>
                   <AppNavbar/>
                   <Switch>
-                    <Route path='/' exact={true} component={Home}/>
+                    <CustomRoute path='/' exact={true} comp={Home}/>
                     <PrivateRoute exact={true} path='/posts' comp={Posts}/>
                     <PrivateRoute exact={true} path='/posts/:id' comp={PostEdit}/>
                     <PrivateRoute path='/posts/view/:id' comp={PostView}/>
