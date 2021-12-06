@@ -134,7 +134,12 @@ class Posts extends Component {
                     <Row>
                         {currRole === "ROLE_ADMIN" ?
                             <div className="float-right">
-                                <Button color="success" tag={Link} to="/posts/new">Add Post</Button>
+                                <Button color="success"><Link to={{
+                                    pathname: "posts/edit/",
+                                    state: {params: {id: "new"}}
+                                }}>Add Post
+                                </Link>
+                                </Button>
                             </div>
                             :
                             <div/>
@@ -144,18 +149,20 @@ class Posts extends Component {
                             <PostList updatePosts={this.updatePagination} posts={currentPage} role={currRole}/>
                         </div>
                     </Row>
-                    <Row>
-                        <Col>
-                            <Button color="primary" disabled={prevButtonDisabled} onClick={this.goToPrevPage}>
-                                <FontAwesomeIcon icon={faArrowLeft}/>
-                            </Button>
-                        </Col>
-                        <Col>
-                            <Button color="primary" disabled={nextButtonDisabled} onClick={this.goToNextPage}>
-                                <FontAwesomeIcon icon={faArrowRight}/>
-                            </Button>
-                        </Col>
-                    </Row>
+                    {Pagination.totalPages !== 1 ?
+                        <Row>
+                            <Col>
+                                <Button color="primary" disabled={prevButtonDisabled} onClick={this.goToPrevPage}>
+                                    <FontAwesomeIcon icon={faArrowLeft}/>
+                                </Button>
+                            </Col>
+                            <Col>
+                                <Button color="primary" disabled={nextButtonDisabled} onClick={this.goToNextPage}>
+                                    <FontAwesomeIcon icon={faArrowRight}/>
+                                </Button>
+                            </Col>
+                        </Row>
+                    : <div/>}
                 </Container>
             </div>
         );

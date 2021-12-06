@@ -57,12 +57,21 @@ class PostList extends Component {
                     <article class="blog-post">
                         {role === "ROLE_ADMIN" ?
                             <ButtonGroup>
-                                <Button size="sm" color="primary" tag={Link} to={"posts/" + post.id}>Edit</Button>
+                                <Button size="sm" color="primary"> <Link to={{
+                                    pathname: "posts/edit/",
+                                    state: {params: {id: post.id}}
+                                    }}>
+                                        Edit
+                                    </Link>
+                                </Button>
                                 <Button size="sm" color="danger" onClick={() => this.remove(post.id)}>Delete</Button>
                             </ButtonGroup> :
                             <div/>
                         }
-                        <h2 class="blog-post-title"><Link to={"posts/view/" + post.id}>{post.title}</Link></h2>
+                        <h2 class="blog-post-title"><Link to={{
+                            pathname: "posts/view/",
+                            state: {params: {id: post.id}}
+                            }}>{post.title}</Link></h2>
                         <p class="blog-post-meta">{date}</p>
                         <p>{renderHTML(body)}</p>
                     </article>

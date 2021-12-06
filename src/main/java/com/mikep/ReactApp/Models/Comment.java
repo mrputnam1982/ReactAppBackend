@@ -12,6 +12,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.Instant;
+import java.util.HashMap;
+import java.util.List;
 
 @Document(collection  = "Comments")
 @Getter
@@ -30,8 +32,6 @@ public class Comment {
   @NotBlank(message = "Poster name cannot be blank")
   private String posterUsername;
 
-  @NotNull(message = "Comment cannot be blank.")
-  @NotBlank(message = "Comment cannot be blank.")
   private String commentText;
 
   @CreatedDate
@@ -40,4 +40,10 @@ public class Comment {
   @LastModifiedDate
   private Instant modifiedAt;
 
+  @DBRef
+  @Cascade
+  private List<Vote> votes;
+
+
+  private HashMap<String, Boolean> usersVoted;
 }

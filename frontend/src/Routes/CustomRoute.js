@@ -3,8 +3,8 @@ import {Route, Redirect} from 'react-router-dom';
 export const CustomRoute = ({ comp: Component, ...rest }) =>
   (
     <Route {...rest} render={(props) => {
-       console.log(props.path);
-       if(props.path === '/') auth.logout();
-       return <Component {...props}/>
+
+       if(rest.path === '/' && auth.loggedIn    ) auth.logout();
+       else return <Component {...props}/>
     }} />
   );

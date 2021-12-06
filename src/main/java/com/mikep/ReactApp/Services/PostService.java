@@ -30,6 +30,8 @@ public class PostService {
         return postRepository.findById(id).get();
     }
 
+    public Comment getComment(String id) { return commentRepository.findById(id).get(); }
+
     public void deletePost(String id ) { postRepository.deleteById(id);}
 
     public Comment saveOrUpdateComment(Comment comment) { return commentRepository.save(comment); }

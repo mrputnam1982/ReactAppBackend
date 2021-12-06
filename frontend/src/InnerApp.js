@@ -1,5 +1,6 @@
-    import React, {Component} from 'react';
+import React, {Component} from 'react';
 import { Router, Route, Switch} from 'react-router-dom';
+import { MemoryRouter } from 'react-router';
 import Home from './Pages/Home';
 import Posts from './Pages/Posts'
 import Profile from './Pages/Profile'
@@ -7,7 +8,6 @@ import RegistrationSuccess from './Pages/RegistrationSuccess';
 import RegistrationForm from './auth/RegistrationForm';
 import LoginForm from './auth/LoginForm';
 import UserModal from './Components/UserModal';
-
 import PostEdit from "./Components/PostEdit";
 import PostView from "./Components/PostView";
 import AppNavbar from "./Components/AppNavbar";
@@ -27,8 +27,8 @@ export default class InnerApp extends React.PureComponent{
                   <Switch>
                     <CustomRoute path='/' exact={true} comp={Home}/>
                     <PrivateRoute exact={true} path='/posts' comp={Posts}/>
-                    <PrivateRoute exact={true} path='/posts/:id' comp={PostEdit}/>
-                    <PrivateRoute path='/posts/view/:id' comp={PostView}/>
+                    <PrivateRoute exact={true} path='/posts/edit/' comp={PostEdit}/>
+                    <PrivateRoute exact={true} path='/posts/view/' comp={PostView}/>
                     <PrivateRoute exact={true} path='/registration' comp={RegistrationSuccess}/>
                     <PrivateRoute exact={true} path='/profile' comp={Profile}/>
                   </Switch>

@@ -18,6 +18,7 @@ class PostEdit extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            id: "",
             value: "",
             item: this.emptyItem,
             editorState: EditorState.createEmpty()
@@ -31,11 +32,11 @@ class PostEdit extends Component {
     //    console.log(this.props.match.params.id)
 //        console.log(this.item);
         var post;
-
+        this.state.id = this.props.location.state.params.id;
         const promise = auth.verifyLogin();
         if(promise === "DONE") {
-           if (this.props.match.params.id !== 'new') {
-               await axios.get(`/api/posts/${this.props.match.params.id}`,
+           if (this.state.id !== 'new') {
+               await axios.get(`/api/posts/${this.state.id}`,
                    {
                        headers: {
                            'Accept': 'application/json',
@@ -57,8 +58,8 @@ class PostEdit extends Component {
             promise.then(result => {
                 const resolved = result;
                 if(localStorage.getItem('currentUser')) {
-                    if (this.props.match.params.id !== 'new') {
-                        axios.get(`/api/posts/${this.props.match.params.id}`,
+                    if (this.state.id !== 'new') {
+                        axios.get(`/api/posts/${this.state.id}`,
                             {
                                 headers: {
                                     'Accept': 'application/json',

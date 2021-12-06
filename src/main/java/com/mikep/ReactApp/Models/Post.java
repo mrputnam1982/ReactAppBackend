@@ -38,7 +38,6 @@ public class Post {
     @CreatedDate
     private Instant createdAt;
 
-    @LastModifiedDate
     private Instant modifiedAt;
 
     @DBRef
