@@ -14,7 +14,7 @@
 	<name>ReactApp</name>
 	<description>CRUD application with Spring Boot and React</description>
 	<properties>
-		<java.version>17</java.version>
+		<java.version>11</java.version>
 		<frontend-maven-plugin.version>1.11.4</frontend-maven-plugin.version>
 		<node.version>v14.17.5</node.version>
 		<yarn.version>v1.22.11</yarn.version>
