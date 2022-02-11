@@ -1,1 +1,1 @@
-web: sh -c "cd frontend && npm install && npm start"
+web: java -jar target/ReactApp-0.0.1-SNAPSHOT.jar
