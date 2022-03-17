@@ -46,7 +46,10 @@ public class ClientsController {
     public Client getClientByUsername(@PathVariable String username) {
         return clientRepository.findByUsername(username);
     }
-
+    @GetMapping("/clients/getAll")
+    public List<Client> getClients() {
+        return clientRepository.findAll();
+    }
 
     @PutMapping("/clients/{id}")
     public ResponseEntity updateClient(@PathVariable String id, @RequestBody Client client) {

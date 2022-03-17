@@ -35,6 +35,9 @@ public class Post {
     @NotBlank(message = "Please enter the body text for this post")
     private String body;
 
+    @NotNull(message = "Please enter the author for this post")
+    @NotBlank(message = "Please enter the author for this post")
+    private String author;
     @CreatedDate
     private Instant createdAt;
 

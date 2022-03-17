@@ -92,6 +92,12 @@ public class SecSecurityConfig
                                 "/index*", "/static/**", "/*.js", "/*.json", "/*.ico")
                         .permitAll()
                         .antMatchers("/auth/**").permitAll()
+                            .antMatchers("/api/posts").permitAll()
+                            .antMatchers(HttpMethod.POST,
+                                    "/api/posts/comments/**").permitAll()
+                            .antMatchers("/api/posts/view/**").permitAll()
+                            .antMatchers("/api/getImage/**").permitAll()
+                            .antMatchers(HttpMethod.GET, "/api/posts/**").permitAll()
                         .anyRequest().authenticated()
                         .and()
 

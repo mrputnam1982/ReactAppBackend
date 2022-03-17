@@ -15,6 +15,7 @@ import net.minidev.json.JSONObject;
 import org.bson.json.JsonObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,9 +31,11 @@ import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.SecretKeySpec;
+import javax.mail.MessagingException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.io.UnsupportedEncodingException;
 import java.net.URISyntaxException;
 import java.security.InvalidKeyException;
 import java.security.Key;
@@ -122,14 +125,15 @@ public class AuthController {
                 (Arrays.asList(cookieValue.split(",",-1)),HttpStatus.OK);
     }
     @PutMapping("login")
-    public ResponseEntity<AuthenticationResponse> createAuthenticationToken(@RequestBody Client client)
+    public ResponseEntity<?> createAuthenticationToken(@RequestBody Client client)
             throws Exception {
         //log.info(client.getUsername());
         Client savedClient = clientRepository.findByUsername(client.getUsername());
+
         if(savedClient == null)
             return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
-        if(savedClient.isEnabled() == false)
-            return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+
+
         try{
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                     client.getUsername(),
@@ -137,6 +141,9 @@ public class AuthController {
         } catch(BadCredentialsException e) {
             throw new Exception("Incorrect username or password", e);
         }
+
+        if(savedClient.isEnabled() == false)
+            return new ResponseEntity<String>("Client not enabled", HttpStatus.BAD_REQUEST);
 
         final UserDetails userDetails = userDetailsService
                 .loadUserByUsername(savedClient.getUsername());
@@ -149,7 +156,7 @@ public class AuthController {
         authResponse.setRoles(savedClient.getRoles());
         authResponse.setAvatar(savedClient.getAvatar());
         //return ResponseEntity.ok(new AuthenticationResponse(jwt));
-        return new ResponseEntity<>(authResponse, HttpStatus.OK);
+        return new ResponseEntity<AuthenticationResponse>(authResponse, HttpStatus.OK);
 
 
     }
@@ -219,6 +226,19 @@ public class AuthController {
                     + " failed");
         }
     }
+    @PostMapping("reverify")
+    public ResponseEntity<String> reverifyUser(@RequestBody Client client,
+                                          BindingResult result,
+                                          HttpServletRequest request) {
+        Client existingClient = clientRepository.findByUsername(client.getUsername());
+        try {
+            userDetailsService.resendVerificationEmail(existingClient, getSiteURL(request));
+        } catch(MessagingException | UnsupportedEncodingException e) {
+            return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<String>("Resent verification email", HttpStatus.OK);
+
+    }
     @PostMapping("register")
     public ResponseEntity<?> createUser(@Valid @RequestBody Client client,
                                         BindingResult result,
@@ -242,20 +262,14 @@ public class AuthController {
         }
         catch(Exception e) {
             log.info(e.getMessage());
-            if(e.getClass() == UsernameExistsException.class)
-                throw new UsernameExistsException("Username: " + client.getUsername() + " already exists");
+            if(e.getClass() == DuplicateKeyException.class)
+                throw new UsernameExistsException(client.getUsername() + " already exists!");
             else
                 return new ResponseEntity<String>("Registration failed", HttpStatus.BAD_REQUEST);
         }
     }
-    @GetMapping("/verify")
-    public String verifyUser(@Param("code") String code) {
-        if (userDetailsService.verify(code)) {
-            return "verify_success";
-        } else {
-            return "verify_fail";
-        }
-    }
+
+
     private String getSiteURL(HttpServletRequest request) {
         String siteURL = request.getRequestURL().toString();
         return siteURL.replace(request.getServletPath(), "");

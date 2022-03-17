@@ -50,7 +50,10 @@ public class MyUserDetailsService implements UserDetailsService {
         sendVerificationEmail(client, siteURL);
         return savedClient;
     }
-
+    public void resendVerificationEmail(Client client, String siteURL) throws
+            MessagingException, UnsupportedEncodingException {
+        sendVerificationEmail(client, siteURL);
+    }
     private void sendVerificationEmail(Client client, String siteURL) throws
             MessagingException, UnsupportedEncodingException {
         String verifyURL = siteURL + "/auth/verify?code=" + client.getVerificationCode();

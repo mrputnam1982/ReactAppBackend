@@ -54,13 +54,9 @@ public class PostController {
 
         String username = jwtUtil.getUsernameFromAuthHeader(authorizationHeader);
         if(username != null) {
-            if (myUserDetailsService.isAdmin(username)) {
-                post.setModifiedAt(Instant.now());
-                post = postService.saveOrUpdatePost(post);
-                return new ResponseEntity<Post>(post, HttpStatus.CREATED);
-
-            } else return new ResponseEntity<String>(
-                    "Insufficient Privileges", HttpStatus.BAD_REQUEST);
+            post.setModifiedAt(Instant.now());
+            post = postService.saveOrUpdatePost(post);
+            return new ResponseEntity<Post>(post, HttpStatus.CREATED);
         }
         else return new ResponseEntity<String>("Username invalid", HttpStatus.BAD_REQUEST);
 
