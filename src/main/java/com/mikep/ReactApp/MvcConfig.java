@@ -58,6 +58,10 @@ public class MvcConfig implements WebMvcConfigurer {
 //                        .noTransform()
 //                        .mustRevalidate());
 //
+        registry.addResourceHandler("/resources/**").addResourceLocations("/", "/resources/");
+        registry.addResourceHandler("/assets/**").addResourceLocations("/", "/assets/");
+        registry.addResourceHandler("/webjars/**").addResourceLocations("/", "/webjars");
+
         registry
                 .addResourceHandler("/res/**")
                 // trailing slash is important!

@@ -19,7 +19,7 @@ public class ImageController {
 
     @GetMapping("/getImage/{username}")
     public ResponseEntity<Image> getImage(@PathVariable String username) {
-            Image image = imageRepository.findByUsername(username);
-            return new ResponseEntity<>(image, HttpStatus.OK);
+        Image image = imageRepository.findByUsername(username);
+        return new ResponseEntity<>(image, HttpStatus.OK);
     }
 }

@@ -97,6 +97,8 @@ public class SecSecurityConfig
                                     "/api/posts/comments/**").permitAll()
                             .antMatchers("/api/posts/view/**").permitAll()
                             .antMatchers("/api/getImage/**").permitAll()
+                            .antMatchers(HttpMethod.GET,
+                                    "/api/clients/getAll").permitAll()
                             .antMatchers(HttpMethod.GET, "/api/posts/**").permitAll()
                         .anyRequest().authenticated()
                         .and()

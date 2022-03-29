@@ -38,6 +38,10 @@ public class Post {
     @NotNull(message = "Please enter the author for this post")
     @NotBlank(message = "Please enter the author for this post")
     private String author;
+
+    @NotNull(message = "Please enter the author for this post")
+    @NotBlank(message = "Please enter the author for this post")
+    private String username;
     @CreatedDate
     private Instant createdAt;
 

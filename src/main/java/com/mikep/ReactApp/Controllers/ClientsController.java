@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -48,7 +49,15 @@ public class ClientsController {
     }
     @GetMapping("/clients/getAll")
     public List<Client> getClients() {
-        return clientRepository.findAll();
+
+        List<Client> clients = clientRepository.findAll();
+        List<Client> modified_clients = new ArrayList<>();
+        for(Client client : clients) {
+            client.setPassword("");
+            client.setRoles(null);
+            modified_clients.add(client);
+        }
+        return modified_clients;
     }
 
     @PutMapping("/clients/{id}")
@@ -67,8 +76,8 @@ public class ClientsController {
         if(client.getProfileInfo() != null)
             currentClient.setProfileInfo(client.getProfileInfo());
         if(client.getAvatar() != null) {
-            if(imageRepository.findByUsername((client.getUsername())) != null)
-                imageRepository.deleteByUsername(client.getUsername());
+            if(imageRepository.findByUsername((currentClient.getUsername())) != null)
+                imageRepository.deleteByUsername(currentClient.getUsername());
 
             imageRepository.save(client.getAvatar());
             currentClient.setAvatar(client.getAvatar());

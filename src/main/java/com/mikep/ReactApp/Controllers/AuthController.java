@@ -174,7 +174,7 @@ public class AuthController {
             Cookie refresh_token = new Cookie("refresh_token",
                     Base64.getEncoder().encodeToString(encrypted));
             refresh_token.setMaxAge(24 * 60 * 60);
-            refresh_token.setHttpOnly(true);
+            refresh_token.setHttpOnly(false);
             refresh_token.setSecure(true);
             return new ResponseEntity<>(refresh_token, HttpStatus.OK);
         } catch(NoSuchAlgorithmException |
